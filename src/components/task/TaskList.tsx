@@ -1,4 +1,4 @@
-import { Component, For } from "solid-js";
+import { Component, createEffect, For } from "solid-js";
 
 import { Task, TaskListType } from "../../types";
 import TaskItem from "./TaskItem";
@@ -9,7 +9,6 @@ const TaskList: Component<TaskListType> = ({
   onUpdateTask,
   onToggleStatus,
 }) => {
-  console.count('TaskList');
   return (
     <div>
       <h4 class="text-muted mb-4">Tasks</h4>

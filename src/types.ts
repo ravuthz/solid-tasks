@@ -1,6 +1,7 @@
 export type Task = {
   id?: string;
-  text: string;
+  title: string;
+  userId?: number;
   completed?: boolean;
 };
 
@@ -16,7 +17,7 @@ export type TaskItemType = {
 }
 
 export type TaskListType = {
-  tasks: Task[];
+  tasks: Task[] ;
   onDeleteTask: (task: Task) => void;
   onUpdateTask: (task: Task) => void;
   onToggleStatus: (task: Task) => void;

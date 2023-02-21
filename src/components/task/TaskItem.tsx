@@ -43,7 +43,7 @@ const TaskItem: Component<TaskItemType> = ({
           task.completed && "text-decoration-line-through text-success"
         }`}
       >
-        {task.text}
+        {task.title}
       </div>
       <input
         type="checkbox"

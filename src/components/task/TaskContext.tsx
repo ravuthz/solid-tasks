@@ -1,5 +1,6 @@
-import { createRoot, createSignal } from "solid-js";
-import { createStore } from "solid-js/store";
+import { createContext, createSignal, useContext } from "solid-js";
+// import { createStore } from "solid-js/store";
+
 import { Task } from "../../types";
 import { createLocalStore } from "../../utils/localStore";
 
@@ -13,8 +14,17 @@ const uuid = () => {
   return Math.random().toString(36).substring(2);
 };
 
-function taskStore() {
-  // const [taskList, setTaskList] = createStore([] as Task[]);
+// export type TaskContextType = {
+//     taskForm: any;
+//     taskList: any[];
+//     [key: string]: (data: any) => void;
+// };
+
+export const TaskContext = createContext<any>([{}, {}]);
+
+export function TaskCtxProvider(props: any) {
+  //   const [state, setState] = createStore({ count: props.count || 0 });
+
   const [taskForm, setTaskForm] = createSignal(initialValues);
   const [taskList, setTaskList] = createLocalStore<Task[]>("tasks", []);
 
@@ -50,18 +60,38 @@ function taskStore() {
     );
   };
 
-  return {
-    taskList,
-    listTask,
-    showTask,
-    taskForm,
-    setTaskForm,
-    setTaskList,
-    createTask,
-    deleteTask,
-    updateTask,
-    toggleStatus,
-  };
-};
+  //   const counter = [
+  //     state,
+  //     {
+  //       increment() {
+  //         setState("count", (c) => c + 1);
+  //       },
+  //       decrement() {
+  //         setState("count", (c) => c - 1);
+  //       },
+  //     },
+  //   ];
 
-export const createTaskStore = createRoot(taskStore);
+  const value = [
+    {
+      taskForm,
+      taskList,
+    },
+    {
+      setTaskForm,
+      setTaskList,
+      listTask,
+      showTask,
+      createTask,
+      updateTask,
+      deleteTask,
+      toggleStatus,
+    },
+  ];
+
+  return (
+    <TaskContext.Provider value={value}>{props.children}</TaskContext.Provider>
+  );
+}
+
+export const useTaskCtx = () => useContext(TaskContext);

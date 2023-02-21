@@ -1,10 +1,12 @@
 import type { Component } from "solid-js";
 
-import { Task, TaskFormType } from "../../types";
-import { setTaskForm, taskForm } from "./task.store";
+import { TaskFormType } from "../../types";
+import { createTaskStore } from "./task.store";
+
+const { setTaskForm, taskForm } = createTaskStore;
 
 const TaskForm: Component<TaskFormType> = ({ onAddTask }) => {
-  console.count('TaskForm');
+
   return (
     <div>
       <h4 class="text-muted mb-4">Todo</h4>
@@ -15,13 +17,16 @@ const TaskForm: Component<TaskFormType> = ({ onAddTask }) => {
           placeholder="Add task here..."
           id="taskInput"
           required
-          value={taskForm().text}
-          onChange={(e: any) => setTaskForm(old => ({ ...old, text: e.target?.value}))}
+          value={taskForm().title}
+          onKeyUp={(e: any) =>
+            setTaskForm((old) => ({ ...old, title: e.target?.value }))
+          }
         />
 
         <button
           class="btn btn-primary ms-3 w-auto"
           type="button"
+          disabled={!taskForm().title}
           onClick={() => onAddTask(taskForm())}
         >
           <i class="bi bi-plus-lg"></i>
